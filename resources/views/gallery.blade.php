@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>Eternal Bliss Weddings</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="" name="keywords">
+        <meta content="" name="description">
+
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Playball&display=swap" rel="stylesheet">
+
+        <!-- Icon Font Stylesheet -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+        <!-- Libraries Stylesheet -->
+        <link href="{{ asset('lib/animate/animate.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('lib/lightbox/css/lightbox.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('lib/owlcarousel/owl.carousel.min.css') }}" rel="stylesheet">
+
+        <!-- Customized Bootstrap Stylesheet -->
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+
+        <!-- Template Stylesheet -->
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <!-- Spinner Start -->
+        <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
+            <div class="spinner-grow text-primary" role="status"></div>
+        </div>
+        <!-- Spinner End -->
+
+
+        <!-- Navbar start -->
+        <div class="container-fluid nav-bar">
+            <div class="container">
+                <nav class="navbar navbar-light navbar-expand-lg py-2">
+                    <a href="/" class="navbar-brand">
+                        @foreach ($logo as $logos)
+                            @if ($logos->images)
+                                <img src={{ asset('storage/' . $logos->images->path) }} class="img-fluid" style="width: 200px; height: 50px;" alt="Image">
+                            @else
+                                Gambar tidak tersedia
+                            @endif
+                        @endforeach
+                    </a>
+                    <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                        <span class="fa fa-bars text-primary"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav mx-auto">
+                            <a href="/" class="nav-item nav-link fs-5">Beranda</a>
+                            <a href="/service" class="nav-item nav-link fs-5">Layanan</a>
+                            <a href="/gallery" class="nav-item nav-link active fs-5">Galeri</a>
+                            <a href="/portfolio" class="nav-item nav-link fs-5">Portofolio</a>
+                            <a href="/about-us" class="nav-item nav-link fs-5">Tentang Kami</a>
+                            <a href="/blog" class="nav-item nav-link fs-5">Artikel</a>
+                        </div>
+                        <a href="/contact-us" class="btn btn-primary py-2 px-4 d-none d-xl-inline-block rounded-pill">Hubungi Kami</a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- Navbar End -->
+
+
+        <!-- Modal Search Start -->
+        <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content rounded-0">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Search by keyword</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body d-flex align-items-center">
+                        <div class="input-group w-75 mx-auto d-flex">
+                            <input type="search" class="form-control bg-transparent p-3" placeholder="keywords" aria-describedby="search-icon-1">
+                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Search End -->
+
+
+        <!-- Hero Start -->
+        <div class="container-fluid bg-light py-4 my-3 mt-0">
+            <div class="container text-center animated bounceInDown">
+                <h1 class="display-1 mb-4">Galeri Kami</h1>
+                <ol class="breadcrumb justify-content-center mb-0 animated bounceInDown">
+                    <li class="breadcrumb-item"><a href="/">Beranda</a></li>
+                    <li class="breadcrumb-item text-dark" aria-current="page">Galeri Kami</li>
+                </ol>
+            </div>
+        </div>
+        <!-- Hero End -->
+
+         <!-- Events Start -->
+         <div class="container-fluid event py-4">
+            <div class="container">
+                <div class="text-center wow bounceInUp" data-wow-delay="0.1s">
+                    <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3">Latest Events</small>
+                    <h1 class="display-5 mb-5">Galeri Event Profesional kami</h1>
+                </div>
+                <div class="tab-class text-center">
+                    <ul class="nav nav-pills d-inline-flex justify-content-center mb-5 wow bounceInUp" data-wow-delay="0.1s">
+                        <li class="nav-item p-2">
+                            <a class="d-flex mx-2 py-2 border border-primary bg-light rounded-pill active" data-bs-toggle="pill" href="#tab-1">
+                                <span class="text-dark" style="width: 150px;">All Events</span>
+                            </a>
+                        </li>
+                        <li class="nav-item p-2">
+                            <a class="d-flex py-2 mx-2 border border-primary bg-light rounded-pill" data-bs-toggle="pill" href="#tab-2">
+                                <span class="text-dark" style="width: 150px;">Wedding</span>
+                            </a>
+                        </li>
+                        <li class="nav-item p-2">
+                            <a class="d-flex mx-2 py-2 border border-primary bg-light rounded-pill" data-bs-toggle="pill" href="#tab-3">
+                                <span class="text-dark" style="width: 150px;">Engagement</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane fade show p-0 active">
+                            <div class="row g-4">
+                                <div class="col-lg-12">
+                                    <div class="row g-4">
+                                        @foreach ($gallery as $galeri)
+                                        <div class="col-md-6 col-lg-3 wow bounceInUp" data-wow-delay="0.1s">
+                                            <div class="event-img position-relative">
+                                                @if ($galeri->images)
+                                                    <img class="img-fluid rounded w-100" src="{{ asset('storage/' . $galeri->images->path) }}" alt="">
+                                                <div class="event-overlay d-flex flex-column p-4">
+                                                    <h4 class="me-auto">{{ $galeri->texts->heading }}</h4>
+                                                    <a href="{{ asset('storage/' . $galeri->images->path) }}" data-lightbox="event-1" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
+                                                </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        @endforeach   
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab-2" class="tab-pane fade show p-0">
+                            <div class="row g-4">
+                                <div class="col-lg-12">
+                                    <div class="row g-4">
+                                        @foreach ($gallery as $galeri)
+                                        @if ($galeri->images && ($galeri->texts->heading == 'Wedding'))
+                                        <div class="col-md-6 col-lg-3">
+                                            <div class="event-img position-relative">
+                                                <img class="img-fluid rounded w-100" src="{{ asset('storage/' . $galeri->images->path) }}" alt="">
+                                                <div class="event-overlay d-flex flex-column p-4">
+                                                    <h4 class="me-auto">{{ $galeri->texts->heading }}</h4>
+                                                    <a href="{{ asset('storage/' . $galeri->images->path) }}" data-lightbox="event-8" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab-3" class="tab-pane fade show p-0">
+                            <div class="row g-4">
+                                <div class="col-lg-12">
+                                    <div class="row g-4">
+                                        @foreach ($gallery as $galeri)
+                                        @if ($galeri->images && ($galeri->texts->heading == 'Engagement'))
+                                        <div class="col-md-6 col-lg-3">
+                                            <div class="event-img position-relative">
+                                                <img class="img-fluid rounded w-100" src="{{ asset('storage/' . $galeri->images->path) }}" alt="">
+                                                <div class="event-overlay d-flex flex-column p-4">
+                                                    <h4 class="me-auto">{{ $galeri->texts->heading }}</h4>
+                                                    <a href="{{ asset('storage/' . $galeri->images->path) }}" data-lightbox="event-8" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab-4" class="tab-pane fade show p-0">
+                            <div class="row g-4">
+                                <div class="col-lg-12">
+                                    <div class="row g-4">
+                                        <div class="col-md-6 col-lg-3">
+                                            <div class="event-img position-relative">
+                                                <img class="img-fluid rounded w-100" src="img/event-5.jpg" alt="">
+                                                <div class="event-overlay d-flex flex-column p-4">
+                                                    <h4 class="me-auto">Cocktail</h4>
+                                                    <a href="img/01.jpg" data-lightbox="event-12" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-lg-3">
+                                            <div class="event-img position-relative">
+                                                <img class="img-fluid rounded w-100" src="img/event-6.jpg" alt="">
+                                                <div class="event-overlay d-flex flex-column p-4">
+                                                    <h4 class="me-auto">Cocktail</h4>
+                                                    <a href="img/01.jpg" data-lightbox="event-13" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab-5" class="tab-pane fade show p-0">
+                            <div class="row g-4">
+                                <div class="col-lg-12">
+                                    <div class="row g-4">
+                                        <div class="col-md-6 col-lg-3">
+                                            <div class="event-img position-relative">
+                                                <img class="img-fluid rounded w-100" src="img/event-7.jpg" alt="">
+                                                <div class="event-overlay d-flex flex-column p-4">
+                                                    <h4 class="me-auto">Buffet</h4>
+                                                    <a href="img/01.jpg" data-lightbox="event-14" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-lg-3">
+                                            <div class="event-img position-relative">
+                                                <img class="img-fluid rounded w-100" src="img/event-8.jpg" alt="">
+                                                <div class="event-overlay d-flex flex-column p-4">
+                                                    <h4 class="me-auto">Buffet</h4>
+                                                    <a href="img/01.jpg" data-lightbox="event-15" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Events End -->
+
+
+        <!-- Back to Top -->
+        @foreach ($contact as $kontak)
+            <a href="https://wa.me/{{ $kontak->whatsapp }}?text=Halo,%20saya%20tertarik%20dengan%20layanan%20Anda." class="whatsapp-sticky">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+        @endforeach
+
+        <!-- Footer Start -->
+        <div class="container-fluid footer py-3 my-2 mb-0 bg-light wow bounceInUp" data-wow-delay="0.1s">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-item">
+                            @foreach ($logo as $logos)
+                                @if ($logos->images)
+                                    <img src={{ asset('storage/' . $logos->images->path) }} class="img-fluid mb-3" style="width: 250px; height: 50px;" alt="Image">
+                                    <p class="lh-lg mb-4">{{ $logos->texts->paragraph }}</p>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-item">
+                        
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-item">
+                            @foreach ($contact as $kontak)
+                            <h4 class="mb-4">Follow US</h4>
+                            <div class="d-flex flex-column align-items-start">
+                                <p><a href="https://wa.me/{{ $kontak->whatsapp }}" target="Tes Aja"><i class="fab fa-whatsapp text-primary me-2"></i> Whatsapp</p>
+                                <p><a href="{{ $kontak->instagram }}"><i class="fab fa-instagram text-primary me-2"></i> Instagram</p>
+                                <p><a href="{{ $kontak->tiktok }}"><i class="fab fa-tiktok text-primary me-2"></i> Tiktok</p>
+                                <p><a href="{{ $kontak->youtube }}"><i class="fab fa-youtube text-primary me-2"></i> Youtube</p>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                {{-- @endforeach --}}
+            </div>
+        </div>
+        <!-- Footer End -->
+
+
+        <!-- Copyright Start -->
+        <div class="container-fluid copyright bg-dark py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        <span class="text-light"><a href="#"><i class="fas fa-copyright text-light me-2"></i>Your Site Name</a>, All right reserved.</span>
+                    </div>
+                    <div class="col-md-6 my-auto text-center text-md-end text-white">
+                        Designed By <a class="border-bottom" href="https://websidn.com">Websidn</a> Distributed By <a class="border-bottom" href="">Newus Technology</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Copyright End -->
+        
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('lib/wow/wow.min.js') }}"></script>
+    <script src="{{ asset('lib/easing/easing.min.js') }}"></script>
+    <script src="{{ asset('lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ asset('lib/counterup/counterup.min.js') }}"></script>
+    <script src="{{ asset('lib/lightbox/js/lightbox.min.js') }}"></script>
+    <script src="{{ asset('lib/owlcarousel/owl.carousel.min.js') }}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{{ asset('js/main.js') }}"></script>
+    </body>
+
+</html>
