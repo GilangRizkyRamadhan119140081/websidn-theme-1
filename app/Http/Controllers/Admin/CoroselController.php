@@ -30,7 +30,7 @@ class CoroselController extends Controller
             'path' => 'required|image',
         ]);
 
-        $path = $request->file('path')->store('corosels', 'public');
+        $path = $request->file('path')->store('websidn/corosels', 's3');
 
         Corosels::create([
             'resolusi' => $validated['resolusi'],
@@ -57,7 +57,7 @@ class CoroselController extends Controller
         $path = $corosel->path;
 
         if ($request->hasFile('path')) {
-            $path = $request->file('path')->store('corosels', 'public');
+            $path = $request->file('path')->store('websidn/corosels', 's3');
         }
 
         $corosel->update([
@@ -76,8 +76,13 @@ class CoroselController extends Controller
 
     public function CoroselDelete($id)
     {
+    try {
         $corosel = Corosels::findOrFail($id);
         $corosel->delete();
-        return redirect()->route('corosel.index');
+        
+        return redirect()->route('corosel.index')->with('success', 'Data berhasil dihapus.');
+    } catch (\Exception $e) {
+        return redirect()->route('corosel.index')->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+    }
     }
 }

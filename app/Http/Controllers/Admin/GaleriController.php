@@ -66,9 +66,14 @@ class GaleriController extends Controller
     }
 
     public function GaleriDelete($id)
-    {
+{
+    try {
         $galeri = Galeris::findOrFail($id);
         $galeri->delete();
-        return redirect()->route('galeri.index');
+        
+        return redirect()->route('galeri.index')->with('success', 'Data berhasil dihapus.');
+    } catch (\Exception $e) {
+        return redirect()->route('galeri.index')->with('error', 'Gagal menghapus data: ' . $e->getMessage());
     }
+}
 }

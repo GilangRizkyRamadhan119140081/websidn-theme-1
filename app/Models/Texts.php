@@ -15,4 +15,13 @@ class Texts extends Model
         'subheading',
         'paragraph',
     ];
+
+    public function home()
+    {
+        return $this->hasMany(Homes::class, 'id_text');
+    }
+    public function galeri()
+    {
+        return $this->hasMany(Galeris::class, 'id_text');
+    }
 }

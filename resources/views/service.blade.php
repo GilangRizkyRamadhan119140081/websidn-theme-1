@@ -45,7 +45,7 @@
                     <a href="/" class="navbar-brand">
                         @foreach ($logo as $logos)
                             @if ($logos->images)
-                                <img src={{ asset('storage/' . $logos->images->path) }} class="img-fluid" style="width: 200px; height: 50px;" alt="Image">
+                                <img src="{{ Storage::disk('s3')->url($logos->images->path) }}" class="img-fluid " alt="Image" style="height:60px; object-fit: cover; ">
                             @else
                                 Gambar tidak tersedia
                             @endif
@@ -57,13 +57,13 @@
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
                             <a href="/" class="nav-item nav-link fs-5">Beranda</a>
-                            <a href="/service" class="nav-item nav-link active fs-5">Layanan</a>
-                            <a href="/gallery" class="nav-item nav-link fs-5">Galeri</a>
-                            <a href="/portfolio" class="nav-item nav-link fs-5">Portofolio</a>
-                            <a href="/about-us" class="nav-item nav-link fs-5">Tentang Kami</a>
-                            <a href="/blog" class="nav-item nav-link fs-5">Artikel</a>
+                            <a href="/layanan" class="nav-item nav-link active fs-5">Layanan</a>
+                            <a href="/galleri" class="nav-item nav-link fs-5">Galeri</a>
+                            <a href="/portofolio" class="nav-item nav-link fs-5">Portofolio</a>
+                            <a href="/tentang-kami" class="nav-item nav-link fs-5">Tentang Kami</a>
+                            <a href="/artikel" class="nav-item nav-link fs-5">Artikel</a>
                         </div>
-                        <a href="/contact-us" class="btn btn-primary py-2 px-4 d-none d-xl-inline-block rounded-pill">Hubungi Kami</a>
+                        <a href="/kontak-kami" class="btn btn-primary py-2 px-4 d-none d-xl-inline-block rounded-pill">Hubungi Kami</a>
                     </div>
                 </nav>
             </div>
@@ -105,13 +105,12 @@
 
 
          <!-- Service Start -->
-         <div class="container-fluid service py-4">
+         <div class="container-fluid service py-4" style="background-color:#f8f8f8;">
             <div class="container">
                 <div class="text-center wow bounceInUp" data-wow-delay="0.1s">
                     <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3">Layanan Kami</small>
-                    <h2>Download Brosur</h2>
-                    <a href="#" class="btn btn-primary px-4 py-2 rounded-pill mb-4">Brosur</a>
-                    <h2 class="display-5 mb-5">Apa yang Kami Tawarkan</h2>
+                    
+                    <h2 class="display-5 mb-3">Apa yang Kami Tawarkan</h2>
                 </div>
                 <div class="row g-4">
                     @foreach ($service as $layanan)
@@ -119,10 +118,10 @@
                         <div class="bg-light rounded service-item">
                             <div class="service-content d-flex align-items-center justify-content-center p-4">
                                 <div class="service-content-icon text-center">
-                                    <img class="img-fluid rounded w-100 mb-3" src="{{ asset('storage/' . $layanan->image) }}" alt="">
+                                    <img class="img-fluid rounded w-100 mb-3" src="{{ Storage::disk('s3')->url($layanan->image) }}" alt="">
                                     <h4 class="mb-3">{{ $layanan->judul }}</h4>
                                     <p class="mb-4">{{ $layanan->detail}}</p>
-                                    <a href="/service" class="btn btn-primary px-4 py-2 rounded-pill">Read More</a>
+                                    <a href="/document-brosur" class="btn btn-primary px-4 py-2 rounded-pill">Read More</a>
                                 </div>
                             </div>
                         </div>
@@ -134,11 +133,11 @@
         <!-- Service End -->
 
          <!-- Price Start -->
-         <div class="container-fluid service py-3">
+         <div class="container-fluid service bg-light py-3">
             <div class="container">
                 <div class="text-center wow bounceInUp" data-wow-delay="0.1s">
                     <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3">Pricelist</small>
-                    <h1 class="display-5 mb-5">Paket Impian</h1>
+                    <h1 class="display-5 mb-3">Paket Impian</h1>
                 </div>
                 
                 <div class="row g-4">
@@ -147,14 +146,14 @@
                         <div class="bg-light rounded service-item">
                             <div class="service-content d-flex align-items-center justify-content-center p-4">
                                 <div class="service-content-icon text-center">
-                                    <img class="img-fluid rounded w-100 mb-3" src="{{ asset('storage/' . $prices->image) }}" alt="">
+                                    <img class="img-fluid rounded w-100 mb-3" src="{{ Storage::disk('s3')->url($prices->image) }}" alt="">
                                     <h3 class="mb-3">{{ $prices->judul }}</h3>
                                     <p class="mb-4">{{ $prices->item1}}</p>
                                     <p class="mb-4">{{ $prices->item2}}</p>
-                                    <p class="mb-4">{{ $prices->item3}}r</p>
+                                    <p class="mb-4">{{ $prices->item3}}</p>
                                     <p class="mb-4">{{ $prices->item4}}</p>
                                     <p class="mb-4">{{ $prices->item5}}</p>
-                                    <a href="/service" class="btn btn-primary px-4 py-2 rounded-pill">See More</a>
+                                    <a href="/document-price" class="btn btn-primary px-4 py-2 rounded-pill">See More</a>
                                 </div>
                             </div>
                         </div>
@@ -173,18 +172,22 @@
             </a>
         @endforeach
 
-        <!-- Footer Start -->
-        <div class="container-fluid footer py-3 my-2 mb-0 bg-light wow bounceInUp" data-wow-delay="0.1s">
+         <!-- Footer Start -->
+         <div class="container-fluid footer py-3 my-2 mb-0 bg-light wow bounceInUp" data-wow-delay="0.1s">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-6">
                         <div class="footer-item">
                             @foreach ($logo as $logos)
                                 @if ($logos->images)
-                                    <img src={{ asset('storage/' . $logos->images->path) }} class="img-fluid mb-3" style="width: 250px; height: 50px;" alt="Image">
-                                    <p class="lh-lg mb-4">{{ $logos->texts->paragraph }}</p>
+                                    <img src="{{ Storage::disk('s3')->url($logos->images->path) }}" class="img-fluid " alt="Image" style="height: 50px; object-fit: cover; ">
+                                @else
+                                    Gambar tidak tersedia
                                 @endif
                             @endforeach
+                            @foreach ($about as $abouts)
+                            <p class="lh-lg mb-4">{{ $abouts->text }}</p>
+                        @endforeach 
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">

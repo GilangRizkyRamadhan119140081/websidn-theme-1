@@ -64,9 +64,19 @@ class TextController extends Controller
     public function TextDelete($id)
     {
         $text = Texts::findOrFail($id);
-        $text->delete();
 
-        return redirect()->route('text.index');
+        $relationships = ['home', 'galeri']; // Tambahkan semua nama relasi di sini
+
+        foreach ($relationships as $relationship) {
+            if ($text->$relationship()->exists()) {
+            
+                // Jika ada relasi yang ditemukan, tampilkan pesan error
+                return redirect()->route('home.index')->withErrors('Gagal menghapus. Data terkait dengan entri di tabel lain.');
+            }
+        }
+         $text->delete();
+
+         return redirect()->route('home.index')->with('success', 'Data berhasil dihapus.');
     }
 
     // public function TextPage(): View

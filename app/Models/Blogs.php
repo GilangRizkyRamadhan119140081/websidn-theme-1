@@ -11,11 +11,30 @@ class Blogs extends Model
 
     protected $fillable = [
         'judul',
-        'meta',
-        'tag',
+        'slug',
+        'id_kategori',
+        'deskripsi_singkat',
         'keyword',
-        'caption',
         'deskripsi',
+        'status',
+        'date',
         'image',
+        'nama_penulis',
     ];
+
+    public function kategoris()
+    {
+        return $this->belongsTo(Blogkategoris::class,'id_kategori');
+    }
+    public function tags()
+    {
+        return $this->belongsToMany(Blogtags::class, 'multitagblog', 'blog_id', 'blogtag_id');
+    }
+    public function getShortDescriptionAttribute()
+{
+    $words = str_word_count($this->deskripsi, 1);
+    $shortDescription = implode(' ', array_slice($words, 0, 10));
+
+    return $shortDescription;
+}
 }

@@ -45,7 +45,7 @@
                     <a href="/" class="navbar-brand">
                         @foreach ($logo as $logos)
                             @if ($logos->images)
-                                <img src={{ asset('storage/' . $logos->images->path) }} class="img-fluid" style="width: 200px; height: 50px;" alt="Image">
+                                <img src="{{ Storage::disk('s3')->url($logos->images->path) }}" class="img-fluid " alt="Image" style="height:60px; object-fit: cover; ">
                             @else
                                 Gambar tidak tersedia
                             @endif
@@ -57,13 +57,13 @@
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
                             <a href="/" class="nav-item nav-link fs-5">Beranda</a>
-                            <a href="/service" class="nav-item nav-link fs-5">Layanan</a>
-                            <a href="/gallery" class="nav-item nav-link fs-5">Galeri</a>
-                            <a href="/portfolio" class="nav-item nav-link active fs-5">Portofolio</a>
-                            <a href="/about-us" class="nav-item nav-link fs-5">Tentang Kami</a>
-                            <a href="/blog" class="nav-item nav-link fs-5">Artikel</a>
+                            <a href="/layanan" class="nav-item nav-link fs-5">Layanan</a>
+                            <a href="/galleri" class="nav-item nav-link fs-5">Galeri</a>
+                            <a href="/portofolio" class="nav-item nav-link active fs-5">Portofolio</a>
+                            <a href="/tentang-kami" class="nav-item nav-link fs-5">Tentang Kami</a>
+                            <a href="/artikel" class="nav-item nav-link fs-5">Artikel</a>
                         </div>
-                        <a href="/contactus" class="btn btn-primary py-2 px-4 d-none d-xl-inline-block rounded-pill">Hubungi Kami</a>
+                        <a href="/kontak-kami" class="btn btn-primary py-2 px-4 d-none d-xl-inline-block rounded-pill">Hubungi Kami</a>
                     </div>
                 </nav>
             </div>
@@ -105,7 +105,7 @@
         <!-- Hero End -->
 
         <!--  Start -->
-        <div class="container-fluid service py-4">
+        <div class="container-fluid service py-4" style="background-color:#f8f8f8;">
             <div class="container">
                 <div class="text-center wow bounceInUp" data-wow-delay="0.1s">
                     <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-4">Project Terbaru</small>
@@ -115,11 +115,11 @@
                     @foreach ($portofolio as $portofolios)
                     <div class="col-lg-4 col-md-6 mb-4 px-4">
                         <div class="card" >
-                            <img src="{{ asset('storage/' . $portofolios->image) }}" class="card-img-top" alt="...">
+                            <img src="{{ Storage::disk('s3')->url($portofolios->image) }}" class="card-img-top" alt="...">
                             <div class="card-body text-dark">
                               <h4 class="card-title">{{ $portofolios->judul }}</h4>
                               <p class="card-text">{{ $portofolios->detail }}</p>
-                              <a href="#" class="btn btn-primary w-100">See Project</a>
+                              <a href="/document-portofolio" class="btn btn-primary w-100">Lihat Project</a>
                             </div>
                         </div>
                     </div>
@@ -129,18 +129,22 @@
         </div>
         <!-- Service End -->
 
-        <!-- Footer Start -->
-        <div class="container-fluid footer py-3 my-2 mb-0 bg-light wow bounceInUp" data-wow-delay="0.1s">
+         <!-- Footer Start -->
+         <div class="container-fluid footer py-3 my-2 mb-0 bg-light wow bounceInUp" data-wow-delay="0.1s">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-6">
                         <div class="footer-item">
                             @foreach ($logo as $logos)
                                 @if ($logos->images)
-                                    <img src={{ asset('storage/' . $logos->images->path) }} class="img-fluid mb-3" style="width: 250px; height: 50px;" alt="Image">
-                                    <p class="lh-lg mb-4">{{ $logos->texts->paragraph }}</p>
+                                    <img src="{{ Storage::disk('s3')->url($logos->images->path) }}" class="img-fluid " alt="Image" style="height: 50px; object-fit: cover; ">
+                                @else
+                                    Gambar tidak tersedia
                                 @endif
                             @endforeach
+                            @foreach ($about as $abouts)
+                            <p class="lh-lg mb-4">{{ $abouts->text }}</p>
+                        @endforeach 
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">

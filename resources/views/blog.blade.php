@@ -39,13 +39,13 @@
 
 
         <!-- Navbar start -->
-        <div class="container-fluid nav-bar">
+        <div class="container-fluid nav-bar" >
             <div class="container">
                 <nav class="navbar navbar-light navbar-expand-lg py-2">
                     <a href="/" class="navbar-brand">
                         @foreach ($logo as $logos)
                             @if ($logos->images)
-                                <img src={{ asset('storage/' . $logos->images->path) }} class="img-fluid" style="width: 200px; height: 50px;" alt="Image">
+                                <img src="{{ Storage::disk('s3')->url($logos->images->path) }}" class="img-fluid " alt="Image" style="height:60px; object-fit: cover; ">
                             @else
                                 Gambar tidak tersedia
                             @endif
@@ -57,13 +57,13 @@
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
                             <a href="/" class="nav-item nav-link fs-5">Beranda</a>
-                            <a href="/service" class="nav-item nav-link fs-5">Layanan</a>
-                            <a href="/gallery" class="nav-item nav-link fs-5">Galeri</a>
-                            <a href="/portfolio" class="nav-item nav-link fs-5">Portofolio</a>
-                            <a href="/about-us" class="nav-item nav-link fs-5">Tentang Kami</a>
-                            <a href="/blog" class="nav-item nav-link active fs-5">Artikel</a>
+                            <a href="/layanan" class="nav-item nav-link fs-5">Layanan</a>
+                            <a href="/galleri" class="nav-item nav-link fs-5">Galeri</a>
+                            <a href="/portofolio" class="nav-item nav-link fs-5">Portofolio</a>
+                            <a href="/tentang-kami" class="nav-item nav-link fs-5">Tentang Kami</a>
+                            <a href="/artikel" class="nav-item nav-link active fs-5">Artikel</a>
                         </div>
-                        <a href="/contact-us" class="btn btn-primary py-2 px-4 d-none d-xl-inline-block rounded-pill">Hubungi Kami</a>
+                        <a href="/kontak-kami" class="btn btn-primary py-2 px-4 d-none d-xl-inline-block rounded-pill">Hubungi Kami</a>
                     </div>
                 </nav>
             </div>
@@ -92,7 +92,7 @@
 
 
         <!-- Hero Start -->
-        <div class="container-fluid bg-light py-4 my-3 mt-0">
+        <div class="container-fluid bg-light py-4  mt-0">
             <div class="container text-center animated bounceInDown">
                 <h1 class="display-1 mb-4">Artikel Kami</h1>
                 <ol class="breadcrumb justify-content-center mb-0 animated bounceInDown">
@@ -105,79 +105,53 @@
 
 
         <!-- Blog Start -->
-        <div class="container-fluid blog py-4">
+        <div class="container-fluid blog py-3" style="background-color:#f8f8f8;">
             <div class="container">
                 <div class="text-center wow bounceInUp" data-wow-delay="0.1s">
                     <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3">Artikel Terbaru</small>
-                    <h1 class="display-5 mb-5">Jadilah Orang Pertama Yang Membaca Berita Kami</h1>
+                    <h1 class="display-5 mb-3">Jadilah Orang Pertama Yang Membaca Berita Kami</h1>
                 </div>
-                <div class="row gx-4 justify-content-center">
+                <div class="row justify-content-center">
+                    @foreach ($blog as $artikel)
                     <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-delay="0.1s">
                         <div class="blog-item">
-                            <div class="overflow-hidden rounded">
-                                <img src="img/blog-1.jpg" class="img-fluid w-100" alt="">
-                            </div>
-                            <div class="blog-content mx-4 d-flex rounded bg-light">
-                                <div class="text-dark bg-primary rounded-start">
-                                    <div class="h-100 p-3 d-flex flex-column justify-content-center text-center">
-                                        <p class="fw-bold mb-0">16</p>
-                                        <p class="fw-bold mb-0">Sep</p>
+                            <div class="overflow-hidden rounded mb-5">
+                                <img src="{{ Storage::disk('s3')->url($artikel->image) }}" class="img-fluid w-100" alt="">
+                                <div class="blog-content mx-2 d-flex rounded bg-light mt-5" >
+                                    <div class="border border-5 border-light border-top-0 p-4">
+                                        <span class="card-text mb-3 text-muted" style="font-size: 14px">{{ $artikel->nama_penulis }} , {{ $artikel->date }}</span>
+                                        <h5 class="text-primary fw-medium mt-2 mb-3"><a href="/{{ $artikel->slug }}">{{ $artikel->judul }}</a></h5>
+                                        <p class="lh-base mb-3 text-dark mt-3">{{ $artikel->deskripsi_singkat }} .....</p>
+                                        <a href="#" class="card-link mt-3">#{{ $artikel->kategoris->kategori }}</a>
                                     </div>
                                 </div>
-                                <a href="#" class="h5 lh-base my-auto h-100 p-3">How to prepare the perfect wedding</a>
                             </div>
+                            
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-delay="0.3s">
-                        <div class="blog-item">
-                            <div class="overflow-hidden rounded">
-                                <img src="img/blog-2.jpg" class="img-fluid w-100" alt="">
-                            </div>
-                            <div class="blog-content mx-4 d-flex rounded bg-light">
-                                <div class="text-dark bg-primary rounded-start">
-                                    <div class="h-100 p-3 d-flex flex-column justify-content-center text-center">
-                                        <p class="fw-bold mb-0">16</p>
-                                        <p class="fw-bold mb-0">Sep</p>
-                                    </div>
-                                </div>
-                                <a href="#" class="h5 lh-base my-auto h-100 p-3">How to prepare the perfect wedding</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-delay="0.5s">
-                        <div class="blog-item">
-                            <div class="overflow-hidden rounded">
-                                <img src="img/blog-3.jpg" class="img-fluid w-100" alt="">
-                            </div>
-                            <div class="blog-content mx-4 d-flex rounded bg-light">
-                                <div class="text-dark bg-primary rounded-start">
-                                    <div class="h-100 p-3 d-flex flex-column justify-content-center text-center">
-                                        <p class="fw-bold mb-0">16</p>
-                                        <p class="fw-bold mb-0">Sep</p>
-                                    </div>
-                                </div>
-                                <a href="#" class="h5 lh-base my-auto h-100 p-3">How to prepare the perfect wedding</a>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
         <!-- Blog End -->
 
 
-        <!-- Footer Start -->
-        <div class="container-fluid footer py-3 my-2 mb-0 bg-light wow bounceInUp" data-wow-delay="0.1s">
+         <!-- Footer Start -->
+         <div class="container-fluid footer py-3 my-2 mb-0 bg-light wow bounceInUp" data-wow-delay="0.1s">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-6">
                         <div class="footer-item">
                             @foreach ($logo as $logos)
                                 @if ($logos->images)
-                                    <img src={{ asset('storage/' . $logos->images->path) }} class="img-fluid mb-3" style="width: 250px; height: 50px;" alt="Image">
-                                    <p class="lh-lg mb-4">{{ $logos->texts->paragraph }}</p>
+                                    <img src="{{ Storage::disk('s3')->url($logos->images->path) }}" class="img-fluid " alt="Image" style="height: 50px; object-fit: cover; ">
+                                @else
+                                    Gambar tidak tersedia
                                 @endif
                             @endforeach
+                            @foreach ($about as $abouts)
+                            <p class="lh-lg mb-4">{{ $abouts->text }}</p>
+                        @endforeach 
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">

@@ -45,7 +45,7 @@
                     <a href="/" class="navbar-brand">
                         @foreach ($logo as $logos)
                             @if ($logos->images)
-                                <img src={{ asset('storage/' . $logos->images->path) }} class="img-fluid" style="width: 200px; height: 50px;" alt="Image">
+                                <img src="{{ Storage::disk('s3')->url($logos->images->path) }}" class="img-fluid " alt="Image" style="height:60px; object-fit: cover; ">
                             @else
                                 Gambar tidak tersedia
                             @endif
@@ -57,13 +57,13 @@
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
                             <a href="/" class="nav-item nav-link fs-5">Beranda</a>
-                            <a href="/service" class="nav-item nav-link fs-5">Layanan</a>
-                            <a href="/gallery" class="nav-item nav-link active fs-5">Galeri</a>
-                            <a href="/portfolio" class="nav-item nav-link fs-5">Portofolio</a>
-                            <a href="/about-us" class="nav-item nav-link fs-5">Tentang Kami</a>
-                            <a href="/blog" class="nav-item nav-link fs-5">Artikel</a>
+                            <a href="/layanan" class="nav-item nav-link fs-5">Layanan</a>
+                            <a href="/galleri" class="nav-item nav-link active fs-5">Galeri</a>
+                            <a href="/portofolio" class="nav-item nav-link fs-5">Portofolio</a>
+                            <a href="/tentang-kami" class="nav-item nav-link fs-5">Tentang Kami</a>
+                            <a href="/artikel" class="nav-item nav-link fs-5">Artikel</a>
                         </div>
-                        <a href="/contact-us" class="btn btn-primary py-2 px-4 d-none d-xl-inline-block rounded-pill">Hubungi Kami</a>
+                        <a href="/kontak-kami" class="btn btn-primary py-2 px-4 d-none d-xl-inline-block rounded-pill">Hubungi Kami</a>
                     </div>
                 </nav>
             </div>
@@ -104,11 +104,11 @@
         <!-- Hero End -->
 
          <!-- Events Start -->
-         <div class="container-fluid event py-4">
+         <div class="container-fluid event py-4" style="background-color:#f8f8f8;">
             <div class="container">
                 <div class="text-center wow bounceInUp" data-wow-delay="0.1s">
                     <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3">Latest Events</small>
-                    <h1 class="display-5 mb-5">Galeri Event Profesional kami</h1>
+                    <h1 class="display-5 mb-3">Galeri Event Profesional kami</h1>
                 </div>
                 <div class="tab-class text-center">
                     <ul class="nav nav-pills d-inline-flex justify-content-center mb-5 wow bounceInUp" data-wow-delay="0.1s">
@@ -137,10 +137,10 @@
                                         <div class="col-md-6 col-lg-3 wow bounceInUp" data-wow-delay="0.1s">
                                             <div class="event-img position-relative">
                                                 @if ($galeri->images)
-                                                    <img class="img-fluid rounded w-100" src="{{ asset('storage/' . $galeri->images->path) }}" alt="">
+                                                    <img class="img-fluid rounded w-100" src="{{ Storage::disk('s3')->url($galeri->images->path) }}" alt="">
                                                 <div class="event-overlay d-flex flex-column p-4">
                                                     <h4 class="me-auto">{{ $galeri->texts->heading }}</h4>
-                                                    <a href="{{ asset('storage/' . $galeri->images->path) }}" data-lightbox="event-1" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
+                                                    <a href="{{ Storage::disk('s3')->url($galeri->images->path) }}" data-lightbox="event-1" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
                                                 </div>
                                                 @endif
                                             </div>
@@ -158,10 +158,10 @@
                                         @if ($galeri->images && ($galeri->texts->heading == 'Wedding'))
                                         <div class="col-md-6 col-lg-3">
                                             <div class="event-img position-relative">
-                                                <img class="img-fluid rounded w-100" src="{{ asset('storage/' . $galeri->images->path) }}" alt="">
+                                                <img class="img-fluid rounded w-100" src="{{ Storage::disk('s3')->url($galeri->images->path) }}" alt="">
                                                 <div class="event-overlay d-flex flex-column p-4">
                                                     <h4 class="me-auto">{{ $galeri->texts->heading }}</h4>
-                                                    <a href="{{ asset('storage/' . $galeri->images->path) }}" data-lightbox="event-8" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
+                                                    <a href="{{ Storage::disk('s3')->url($galeri->images->path) }}" data-lightbox="event-8" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -179,10 +179,10 @@
                                         @if ($galeri->images && ($galeri->texts->heading == 'Engagement'))
                                         <div class="col-md-6 col-lg-3">
                                             <div class="event-img position-relative">
-                                                <img class="img-fluid rounded w-100" src="{{ asset('storage/' . $galeri->images->path) }}" alt="">
+                                                <img class="img-fluid rounded w-100" src="{{ Storage::disk('s3')->url($galeri->images->path) }}" alt="">
                                                 <div class="event-overlay d-flex flex-column p-4">
                                                     <h4 class="me-auto">{{ $galeri->texts->heading }}</h4>
-                                                    <a href="{{ asset('storage/' . $galeri->images->path) }}" data-lightbox="event-8" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
+                                                    <a href="{{ Storage::disk('s3')->url($galeri->images->path) }}" data-lightbox="event-8" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
                                                 </div>
                                                 
                                             </div>
@@ -193,58 +193,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="tab-4" class="tab-pane fade show p-0">
-                            <div class="row g-4">
-                                <div class="col-lg-12">
-                                    <div class="row g-4">
-                                        <div class="col-md-6 col-lg-3">
-                                            <div class="event-img position-relative">
-                                                <img class="img-fluid rounded w-100" src="img/event-5.jpg" alt="">
-                                                <div class="event-overlay d-flex flex-column p-4">
-                                                    <h4 class="me-auto">Cocktail</h4>
-                                                    <a href="img/01.jpg" data-lightbox="event-12" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-3">
-                                            <div class="event-img position-relative">
-                                                <img class="img-fluid rounded w-100" src="img/event-6.jpg" alt="">
-                                                <div class="event-overlay d-flex flex-column p-4">
-                                                    <h4 class="me-auto">Cocktail</h4>
-                                                    <a href="img/01.jpg" data-lightbox="event-13" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="tab-5" class="tab-pane fade show p-0">
-                            <div class="row g-4">
-                                <div class="col-lg-12">
-                                    <div class="row g-4">
-                                        <div class="col-md-6 col-lg-3">
-                                            <div class="event-img position-relative">
-                                                <img class="img-fluid rounded w-100" src="img/event-7.jpg" alt="">
-                                                <div class="event-overlay d-flex flex-column p-4">
-                                                    <h4 class="me-auto">Buffet</h4>
-                                                    <a href="img/01.jpg" data-lightbox="event-14" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-3">
-                                            <div class="event-img position-relative">
-                                                <img class="img-fluid rounded w-100" src="img/event-8.jpg" alt="">
-                                                <div class="event-overlay d-flex flex-column p-4">
-                                                    <h4 class="me-auto">Buffet</h4>
-                                                    <a href="img/01.jpg" data-lightbox="event-15" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -259,18 +208,22 @@
             </a>
         @endforeach
 
-        <!-- Footer Start -->
-        <div class="container-fluid footer py-3 my-2 mb-0 bg-light wow bounceInUp" data-wow-delay="0.1s">
+         <!-- Footer Start -->
+         <div class="container-fluid footer py-3 my-2 mb-0 bg-light wow bounceInUp" data-wow-delay="0.1s">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-6">
                         <div class="footer-item">
                             @foreach ($logo as $logos)
                                 @if ($logos->images)
-                                    <img src={{ asset('storage/' . $logos->images->path) }} class="img-fluid mb-3" style="width: 250px; height: 50px;" alt="Image">
-                                    <p class="lh-lg mb-4">{{ $logos->texts->paragraph }}</p>
+                                    <img src="{{ Storage::disk('s3')->url($logos->images->path) }}" class="img-fluid " alt="Image" style="height: 50px; object-fit: cover; ">
+                                @else
+                                    Gambar tidak tersedia
                                 @endif
                             @endforeach
+                            @foreach ($about as $abouts)
+                            <p class="lh-lg mb-4">{{ $abouts->text }}</p>
+                        @endforeach 
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">

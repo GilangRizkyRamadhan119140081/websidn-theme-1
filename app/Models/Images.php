@@ -13,4 +13,13 @@ class Images extends Model
         'resolusi',
         'path',
     ];
+
+    public function home()
+    {
+        return $this->hasMany(Homes::class, 'id_image');
+    }
+    public function galeri()
+    {
+        return $this->hasMany(Galeris::class, 'id_image');
+    }
 }

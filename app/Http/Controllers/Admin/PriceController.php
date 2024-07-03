@@ -31,7 +31,7 @@ class PriceController extends Controller
             'image' => 'required|image',
         ]);
 
-        $image = $request->file('image')->store('prices', 'public');
+        $image = $request->file('image')->store('websidn/prices', 's3');
 
         Prices::create([
             'judul' => $validated['judul'],
@@ -68,7 +68,7 @@ class PriceController extends Controller
         $path = $price->path;
 
         if ($request->hasFile('image')) {
-            $image = $request->file('image')->store('prices', 'public');
+            $image = $request->file('image')->store('websidn/prices', 's3');
         }
 
         $price->update([
@@ -91,9 +91,14 @@ class PriceController extends Controller
     }
 
     public function PriceDelete($id)
-    {
+{
+    try {
         $price = Prices::findOrFail($id);
         $price->delete();
-        return redirect()->route('price.index');
+        
+        return redirect()->route('price.index')->with('success', 'Data berhasil dihapus.');
+    } catch (\Exception $e) {
+        return redirect()->route('price.index')->with('error', 'Gagal menghapus data: ' . $e->getMessage());
     }
+}
 }

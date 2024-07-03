@@ -31,12 +31,9 @@ class ContactController extends Controller
             'map' => 'required|string|max:255',
         ]);
 
-        try {
-            Contacts::create($validated);
-            return redirect()->route('contact.index')->with('success', 'Contact added successfully.');
-        } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['error' => 'Failed to save contact.']);
-        }
+        Contacts::create($validated);
+
+        return redirect()->route('contact.index');
     }
 
     public function ContactEdit($id)
@@ -70,9 +67,14 @@ class ContactController extends Controller
     }
 
     public function ContactDelete($id)
-    {
+{
+    try {
         $contact = Contacts::findOrFail($id);
         $contact->delete();
-        return redirect()->route('contact.index');
+        
+        return redirect()->route('contact.index')->with('success', 'Data berhasil dihapus.');
+    } catch (\Exception $e) {
+        return redirect()->route('contact.index')->with('error', 'Gagal menghapus data: ' . $e->getMessage());
     }
+}
 }

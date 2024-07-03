@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('tiktok');
             $table->string('youtube');
             $table->string('linkedin');
-            $table->string('map');
+            $table->longtext('map');
             $table->timestamps();
         });
 

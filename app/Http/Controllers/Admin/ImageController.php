@@ -33,12 +33,7 @@ class ImageController extends Controller
             'resolusi' => 'required',
             'path' => 'required|image',
         ]);
-        $path = $request->file('path')->store('images', 'public');
-        // $path = $request->file('path')->store('images');
-        // Dapatkan resolusi gambar
-        // $imagePath = Storage::disk('public')->path($path);
-        // list($width, $height) = getimagesize($imagePath);
-        // $resolusi = "{$width}x{$height}";
+        $path = $request->file('path')->store('websidn/images', 's3');
 
         Images::create([
             'resolusi' => $validated['resolusi'],
@@ -66,7 +61,7 @@ class ImageController extends Controller
         $path = $image->path;
 
         if ($request->hasFile('path')) {
-            $path = $request->file('path')->store('images', 'public');
+            $path = $request->file('path')->store('websidn/images', 's3');
         }
 
         $image->update([
@@ -83,39 +78,21 @@ class ImageController extends Controller
         return view('admin.pages.image.view', compact('image'));
     }
 
-    // public function ImageDelete($id)
-    // {
-    //     $image = Images::findOrFail($id);
-    //     $image->delete();
-    //     return redirect()->route('admin.pages.image.index')->with('success', 'Image Delete successfully.');
-    // }
     public function ImageDelete($id)
     {
         $image = Images::findOrFail($id);
-        
-        // Hapus gambar dari storage
-        Storage::disk('public')->delete($image->path);
-        
-        // Hapus record dari database
-        $image->delete();
-    
-        return redirect()->route('image.index')->with('success', 'Image deleted successfully.');
+
+        $relationships = ['home', 'galeri']; // Tambahkan semua nama relasi di sini
+
+        foreach ($relationships as $relationship) {
+            if ($image->$relationship()->exists()) {
+            
+                // Jika ada relasi yang ditemukan, tampilkan pesan error
+                return redirect()->route('image.index')->withErrors('Gagal menghapus. Data terkait dengan entri di tabel lain.');
+            }
+        }
+         $image->delete();
+
+         return redirect()->route('image.index')->with('success', 'Data berhasil dihapus.');
     }
-    
-    // public function ImagePageIndex()
-    // {
-    //     return view('admin.image.index');
-    // }
-    // public function ImagePageEdit()
-    // {
-    //     return view('admin.image.edit');
-    // }
-    // public function ImagePageView()
-    // {
-    //     return view('admin.image.view');
-    // }
-    // public function ImagePageDelete()
-    // {
-    //     return view('admin.image.delete');
-    // }
 }

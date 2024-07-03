@@ -30,7 +30,7 @@ class TestimoniController extends Controller
             'image' => 'required|image',
         ]);
 
-        $path = $request->file('image')->store('testimonis', 'public');
+        $path = $request->file('image')->store('websidn/testimonis', 's3');
 
         Testimonis::create([
             'name' => $validated['name'],
@@ -61,7 +61,7 @@ class TestimoniController extends Controller
         $path = $testimoni->image;
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('testimonis', 'public');
+            $path = $request->file('image')->store('websidn/testimonis', 's3');
         }
 
         $testimoni->update([
@@ -81,9 +81,14 @@ class TestimoniController extends Controller
     }
 
     public function TestimoniDelete($id)
-    {
+{
+    try {
         $testimoni = Testimonis::findOrFail($id);
         $testimoni->delete();
-        return redirect()->route('testimoni.index');
+        
+        return redirect()->route('testimoni.index')->with('success', 'Data berhasil dihapus.');
+    } catch (\Exception $e) {
+        return redirect()->route('testimoni.index')->with('error', 'Gagal menghapus data: ' . $e->getMessage());
     }
+}
 }

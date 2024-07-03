@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('abouts', function (Blueprint $table) {
             $table->id();
             $table->string('judul');
-            $table->string('text');
+            $table->longText('text');
             $table->string('video');
             $table->string('gambar');
             $table->timestamps();

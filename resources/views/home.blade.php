@@ -70,7 +70,7 @@
                     <a href="/" class="navbar-brand">
                         @foreach ($logo as $logos)
                             @if ($logos->images)
-                                <img src={{ asset('storage/' . $logos->images->path) }} class="img-fluid" style="width: 200px; height: 50px;" alt="Image">
+                                <img src="{{ Storage::disk('s3')->url($logos->images->path) }}" class="img-fluid " alt="Image" style="height:60px; object-fit: cover; ">
                             @else
                                 Gambar tidak tersedia
                             @endif
@@ -82,13 +82,13 @@
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
                             <a href="/" class="nav-item nav-link active fs-5">Beranda</a>
-                            <a href="/service" class="nav-item nav-link fs-5">Layanan</a>
-                            <a href="/gallery" class="nav-item nav-link fs-5">Galeri</a>
-                            <a href="/portfolio" class="nav-item nav-link fs-5">Portofolio</a>
-                            <a href="/about-us" class="nav-item nav-link fs-5">Tentang Kami</a>
-                            <a href="/blog" class="nav-item nav-link fs-5">Artikel</a>
+                            <a href="/layanan" class="nav-item nav-link fs-5">Layanan</a>
+                            <a href="/galleri" class="nav-item nav-link fs-5">Galeri</a>
+                            <a href="/portofolio" class="nav-item nav-link fs-5">Portofolio</a>
+                            <a href="/tentang-kami" class="nav-item nav-link fs-5">Tentang Kami</a>
+                            <a href="/artikel" class="nav-item nav-link fs-5">Artikel</a>
                         </div>
-                        <a href="/contact-us" class="btn btn-primary py-2 px-4 d-none d-xl-inline-block rounded-pill">Hubungi Kami</a>
+                        <a href="/kontak-kami" class="btn btn-primary py-2 px-4 d-none d-xl-inline-block rounded-pill">Hubungi Kami</a>
                     </div>
                 </nav>
             </div>
@@ -118,14 +118,14 @@
         <div class="container-fluid carousel-header px-0">
             <div id="carouselId" class="carousel slide" data-bs-ride="carousel">
                 <ol class="carousel-indicators">
-                    @foreach ($gambar as $index => $carousel)
+                    @foreach ($carousel as $index => $carousels)
                         <li data-bs-target="#carouselId" data-bs-slide-to="{{ $index }}" class="{{ $index == 0 ? 'active' : '' }}"></li>
                     @endforeach
                 </ol>
                 <div class="carousel-inner" role="listbox">
-                    @foreach ($gambar as $index => $carousel)
+                    @foreach ($carousel as $index => $carousels)
                         <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                            <img src="{{ asset('storage/' . $carousel->path) }}" class="img-fluid" alt="Image">
+                            <img src="{{ Storage::disk('s3')->url($carousels->path) }}" class="img-fluid" alt="Image">
                             <div class="carousel-caption">
                                 <div class="p-3" style="max-width: 900px;">
                                     <h4 class="text-primary text-uppercase mb-3">Wedding Organizer Specialist</h4>
@@ -148,30 +148,67 @@
         
         <!-- Carousel End -->
 
-
-        <!-- About Satrt -->
-        <div class="container-fluid py-4 my-4">
+         <!-- Pricing Start -->
+         <div class="container-fluid service bg-light  py-2">
             <div class="container">
-                <div class="row g-5 align-items-center">
-                    <div class="col-lg-5 wow bounceInUp" data-wow-delay="0.1s">
-                        <div class="video">
-                            @foreach ($about as $abouts)
-                            <img src={{ asset('storage/' . $abouts->gambar) }} class="img-fluid rounded" alt="Image">                 
-                        
-                            <button type="button" class="btn btn-play" data-bs-toggle="modal" data-src="{{ $abouts->video }}" data-bs-target="#videoModal">
-                                <span></span>
-                            </button>
-                            @endforeach
+                <div class="text-center wow bounceInUp" data-wow-delay="0.1s">
+                    <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3">Pricelist</small>
+                    <h1 class="display-5 mb-3">Paket Impian</h1>
+                </div>
+                
+                <div class="row g-4">
+                    @foreach ($price as $prices)
+                    <div class="col-lg-3 col-md-6 col-sm-12 wow bounceInUp" data-wow-delay="0.1s">
+                        <div class="bg-light rounded service-item">
+                            <div class="service-content d-flex align-items-center justify-content-center p-4">
+                                <div class="service-content-icon text-center">
+                                    <img class="img-fluid rounded w-100 mb-3" src="{{ Storage::disk('s3')->url($prices->image) }}" alt="">
+                                    <h3 class="mb-3">{{ $prices->judul }}</h3>
+                                    <p class="mb-4">{{ $prices->item1}}</p>
+                                    <p class="mb-4">{{ $prices->item2}}</p>
+                                    <p class="mb-4">{{ $prices->item3}}</p>
+                                    <p class="mb-4">{{ $prices->item4}}</p>
+                                    <p class="mb-4">{{ $prices->item5}}</p>
+                                    <a href="/layanan" class="btn btn-primary px-4 py-2 rounded-pill">See More</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-7 wow bounceInUp" data-wow-delay="0.3s">
+                    @endforeach
+
+                </div>
+            </div>
+        </div>
+        <!-- Pricing End -->
+
+        <!-- About Satrt -->
+        <div class="container-fluid py-2 my-3 mb-2" style="background-color:#f8f8f8;">
+            <div class="container-fluid">
+                <div class="row g-0 mx-auto align-items-center">
+                    <div class="col-lg-12 wow bounceInUp " data-wow-delay="0.1s" style="min-height: 400px;">
+                        <div class="position-relative h-100">
+                            <div class="video">
+                                @foreach ($header as $headers)
+                                <img src={{ Storage::disk('s3')->url($headers->images->path) }} class="position-absolute img-fluid w-100 h-100" alt="Image">                 
+                                @endforeach
+                                @foreach ($about as $abouts)
+                                <button type="button" class="btn btn-play" data-bs-toggle="modal" data-src="{{ $abouts->video }}" data-bs-target="#videoModal">
+                                    <span></span>
+                                </button>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-5 align-items-center mt-1">
+                    <div class="col-lg-12 text-center mx-auto wow bounceInUp" data-wow-delay="0.3s">
                         @foreach ($about as $abouts)
                         <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3">Tentang Kami</small>
                             <h1 class="display-5 mb-4">{{ $abouts->judul }}</h1>
                             <p class="mb-4">{{ $abouts->text }}</p>
                         @endforeach
                         
-                        <a href="/about-us" class="btn btn-primary py-3 px-5 rounded-pill">Read More<i class="fas fa-arrow-right ps-2"></i></a>
+                        <a href="/tentang-kami" class="btn btn-primary py-3 px-5 rounded-pill">Read More<i class="fas fa-arrow-right ps-2"></i></a>
                     </div>
                 </div>
             </div>
@@ -198,11 +235,11 @@
         </div>
 
         <!-- Service Start -->
-        <div class="container-fluid service py-3">
+        <div class="container-fluid service bg-light py-3" style="background-color:#f8f8f8;">
             <div class="container">
                 <div class="text-center wow bounceInUp" data-wow-delay="0.1s">
                     <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3">Layanan Kami</small>
-                    <h1 class="display-5 mb-5">Apa yang Kami Tawarkan</h1>
+                    <h1 class="display-5 mb-2">Apa yang Kami Tawarkan</h1>
                 </div>
                 <div class="row g-4">
                     @foreach ($service as $layanan)
@@ -210,10 +247,10 @@
                         <div class="bg-light rounded service-item">
                             <div class="service-content d-flex align-items-center justify-content-center p-4">
                                 <div class="service-content-icon text-center">
-                                    <img class="img-fluid rounded w-100 mb-3" src="{{ asset('storage/' . $layanan->image) }}" alt="">
+                                    <img class="img-fluid rounded w-100 mb-3" src="{{ Storage::disk('s3')->url($layanan->image) }}" alt="">
                                     <h4 class="mb-3">{{ $layanan->judul }}</h4>
                                     <p class="mb-4">{{ $layanan->detail}}</p>
-                                    <a href="/service" class="btn btn-primary px-4 py-2 rounded-pill">Read More</a>
+                                    <a href="/layanan" class="btn btn-primary px-4 py-2 rounded-pill">Read More</a>
                                 </div>
                             </div>
                         </div>
@@ -224,42 +261,11 @@
         </div>
         <!-- Service End -->
 
-        <!-- Pricing Start -->
-        <div class="container-fluid service py-3">
-            <div class="container">
-                <div class="text-center wow bounceInUp" data-wow-delay="0.1s">
-                    <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3">Pricelist</small>
-                    <h1 class="display-5 mb-5">Paket Impian</h1>
-                </div>
-                
-                <div class="row g-4">
-                    @foreach ($price as $prices)
-                    <div class="col-lg-3 col-md-6 col-sm-12 wow bounceInUp" data-wow-delay="0.1s">
-                        <div class="bg-light rounded service-item">
-                            <div class="service-content d-flex align-items-center justify-content-center p-4">
-                                <div class="service-content-icon text-center">
-                                    <img class="img-fluid rounded w-100 mb-3" src="{{ asset('storage/' . $prices->image) }}" alt="">
-                                    <h3 class="mb-3">{{ $prices->judul }}</h3>
-                                    <p class="mb-4">{{ $prices->item1}}</p>
-                                    <p class="mb-4">{{ $prices->item2}}</p>
-                                    <p class="mb-4">{{ $prices->item3}}r</p>
-                                    <p class="mb-4">{{ $prices->item4}}</p>
-                                    <p class="mb-4">{{ $prices->item5}}</p>
-                                    <a href="/service" class="btn btn-primary px-4 py-2 rounded-pill">See More</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-
-                </div>
-            </div>
-        </div>
-        <!-- Pricing End -->
+       
 
 
         <!-- Gallery Start -->
-        <div class="container-fluid event py-4">
+        <div class="container-fluid event py-4"style="background-color:#f8f8f8;">
             <div class="container">
                 <div class="text-center wow bounceInUp" data-wow-delay="0.1s">
                     <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3">Galeri</small>
@@ -275,10 +281,10 @@
                                         <div class="col-md-6 col-lg-3 wow bounceInUp" data-wow-delay="0.1s">
                                             <div class="event-img position-relative">
                                                 @if ($galeri->images)
-                                                    <img class="img-fluid rounded w-100" src="{{ asset('storage/' . $galeri->images->path) }}" alt="">
+                                                    <img class="img-fluid rounded w-100" src="{{ Storage::disk('s3')->url($galeri->images->path) }}" alt="">
                                                 <div class="event-overlay d-flex flex-column p-4">
                                                     <h4 class="me-auto">{{ $galeri->texts->heading }}</h4>
-                                                    <a href="{{ asset('storage/' . $galeri->images->path) }}" data-lightbox="event-1" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
+                                                    <a href="{{ Storage::disk('s3')->url($galeri->images->path) }}" data-lightbox="event-1" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
                                                 </div>
                                                 @endif
                                             </div>
@@ -296,10 +302,10 @@
                                         <div class="col-md-6 col-lg-3">
                                             <div class="event-img position-relative">
                                                 @if ($galeri->images && ($galeri->texts->heading == 'Wedding'))
-                                                <img class="img-fluid rounded w-100" src="{{ asset('storage/' . $galeri->images->path) }}" alt="">
+                                                <img class="img-fluid rounded w-100" src="{{ Storage::disk('s3')->url($galeri->images->path) }}" alt="">
                                                 <div class="event-overlay d-flex flex-column p-4">
                                                     <h4 class="me-auto">{{ $galeri->texts->heading }}</h4>
-                                                    <a href="{{ asset('storage/' . $galeri->images->path) }}" data-lightbox="event-8" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
+                                                    <a href="{{ Storage::disk('s3')->url($galeri->images->path) }}" data-lightbox="event-8" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
                                                 </div>
                                                 @endif
                                             </div>
@@ -317,10 +323,10 @@
                                         <div class="col-md-6 col-lg-3">
                                             <div class="event-img position-relative">
                                                 @if ($galeri->images && ($galeri->texts->heading == 'Engagement'))
-                                                <img class="img-fluid rounded w-100" src="{{ asset('storage/' . $galeri->images->path) }}" alt="">
+                                                <img class="img-fluid rounded w-100" src="{{ Storage::disk('s3')->url($galeri->images->path) }}" alt="">
                                                 <div class="event-overlay d-flex flex-column p-4">
                                                     <h4 class="me-auto">{{ $galeri->texts->heading }}</h4>
-                                                    <a href="{{ asset('storage/' . $galeri->images->path) }}" data-lightbox="event-8" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
+                                                    <a href="{{ Storage::disk('s3')->url($galeri->images->path) }}" data-lightbox="event-8" class="my-auto"><i class="fas fa-search-plus text-dark fa-2x"></i></a>
                                                 </div>
                                                 @endif
                                             </div>
@@ -336,35 +342,8 @@
         </div>
         <!-- Gallery End -->
         
-        <!-- Team Start -->
-        <div class="container-fluid team py-4">
-            <div class="container">
-                <div class="text-center wow bounceInUp" data-wow-delay="0.1s">
-                    <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3">Our Team</small>
-                    <h1 class="display-5 mb-5">Kami Memiliki Tim Yang Berpengalaman</h1>
-                </div>
-                <div class="row g-4">
-                    @foreach ($team as $tim)
-                    <div class="col-lg-3 col-md-6 wow bounceInUp" data-wow-delay="0.1s">
-                        <div class="team-item rounded">
-                            <img class="img-fluid rounded-top " src="{{ asset('storage/' . $tim->image) }}" alt="">
-                            <div class="team-content text-center py-3 bg-dark rounded-bottom">
-                                <h4 class="text-primary">{{ $tim->judul }}</h4>
-                                <p class="text-white mb-0">{{ $tim->detail }}</p>
-                            </div>
-                            
-                        </div>
-                    </div>
-                    @endforeach
-                    
-                </div>
-            </div>
-        </div>
-        <!-- Team End -->
-
-
         <!-- Testimonial Start -->
-        <div class="container-fluid py-4">
+        <div class="container-fluid bg-light py-4" >
             <div class="container">
                 <div class="text-center wow bounceInUp" data-wow-delay="0.1s">
                     <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3">Testimonial</small>
@@ -375,7 +354,7 @@
                     @foreach ($testimoni as $review)
                     <div class="testimonial-item rounded bg-light">
                         <div class="d-flex mb-3">
-                            <img src="{{ asset('storage/' . $review->image) }}" class="img-fluid rounded-circle flex-shrink-0" alt="">
+                            <img src="{{ Storage::disk('s3')->url($review->image) }}" class="img-fluid rounded-circle flex-shrink-0" alt="">
                             <div class="position-absolute" style="top: 15px; right: 20px;">
                                 <i class="fa fa-quote-right fa-2x"></i>
                             </div>
@@ -395,13 +374,36 @@
         </div>
         <!-- Testimonial End -->
 
-        <!-- Google Maps Section -->
-        <div class="map-container">
-            {{-- @foreach ($contact as $kontak) --}}
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7074.183936675103!2d-73.98354113874954!3d40.75243152133734!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2f7b6376d9b53%3A0xd27fd8e9d8b605d8!2sPerfect%20Wedding%20NYC!5e0!3m2!1sid!2sid!4v1719289912387!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            {{-- <iframe src="{{ $kontak->map }}" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> --}}
-            {{-- @endforeach --}}
+        <!-- Team Start -->
+        <div class="container-fluid team py-4"style="background-color:#f8f8f8;">
+            <div class="container">
+                <div class="text-center wow bounceInUp" data-wow-delay="0.1s">
+                    <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3">Team Kami</small>
+                    <h1 class="display-5 mb-5">Kami Memiliki Tim Yang Berpengalaman</h1>
+                </div>
+                <div class="row g-4">
+                    @foreach ($team as $tim)
+                    <div class="col-lg-3 col-md-6 wow bounceInUp" data-wow-delay="0.1s">
+                        <div class="team-item rounded">
+                            <img class="img-fluid rounded-top " src="{{ Storage::disk('s3')->url($tim->image) }}" alt="">
+                            <div class="team-content text-center py-3 bg-dark rounded-bottom">
+                                <h4 class="text-primary">{{ $tim->judul }}</h4>
+                                <p class="text-white mb-0">{{ $tim->detail }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
         </div>
+        <!-- Team End -->
+
+        <!-- Google Maps Section -->
+        @foreach ($contact as $kontak)
+            <div class="map-container">
+                <iframe src="{{ $kontak->map }}" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        @endforeach
 
         <!-- Footer Start -->
         <div class="container-fluid footer py-3 my-2 mb-0 bg-light wow bounceInUp" data-wow-delay="0.1s">
@@ -411,10 +413,14 @@
                         <div class="footer-item">
                             @foreach ($logo as $logos)
                                 @if ($logos->images)
-                                    <img src={{ asset('storage/' . $logos->images->path) }} class="img-fluid mb-3" style="width: 250px; height: 50px;" alt="Image">
-                                    <p class="lh-lg mb-4">{{ $logos->texts->paragraph }}</p>
+                                    <img src="{{ Storage::disk('s3')->url($logos->images->path) }}" class="img-fluid " alt="Image" style="height: 50px; object-fit: cover; ">
+                                @else
+                                    Gambar tidak tersedia
                                 @endif
                             @endforeach
+                            @foreach ($about as $abouts)
+                            <p class="lh-lg mb-4">{{ $abouts->text }}</p>
+                        @endforeach 
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">

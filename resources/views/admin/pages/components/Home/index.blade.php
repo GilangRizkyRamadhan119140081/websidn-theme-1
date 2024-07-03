@@ -2,6 +2,31 @@
 @section('title', 'Beranda')
 @section('content')
     <h1 class="h3 mb-4 text-gray-800 bg-white p-3">Komponen Beranda</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('image') }}">Daftar gambar</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Preview Gambar</li>
+        </ol>
+    </nav>
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ $errors->first() }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+
     <div class="accordion" id="accordionExample">
         <div class="card">
             <div class="card-header" id="headingOne">
@@ -22,7 +47,9 @@
     </div>
     <br>
     <div class="container-fluid bg-white p-2">
-        <a href="{{ route('home.create') }}" class="btn btn-primary">Add Home</a>
+        @if (Auth::user()->name == 'SuperAdmin')
+            <a href="{{ route('home.create') }}" class="btn btn-primary"><i class="fas fa-fw fa-plus"></i>Tambah Beranda</a>
+        @endif
     </div>
     <br>
     <div class="container-fluid bg-white">
@@ -44,7 +71,7 @@
                             <td>{{ $home->kategori }}</td>
                             <td>
                                 @if ($home->images)
-                                    <img src="{{ asset('storage/' . $home->images->path) }}" alt="Gambar Home"
+                                    <img src="{{ Storage::disk('s3')->url($home->images->path) }}" alt="Gambar Home"
                                         width="300" height="200">
                                 @else
                                     Gambar tidak tersedia
@@ -55,12 +82,43 @@
                                 <div class="btn-group" role="group" aria-label="Actions">
                                     <a href="{{ route('home.edit', $home->id) }}" class="btn btn-warning btn-sm">Edit</a>
                                     <a href="{{ route('home.view', $home->id) }}" class="btn btn-info btn-sm">View</a>
-                                    <form action="{{ route('home.delete', $home->id) }}" method="POST"
-                                        style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                    </form>
+                                    <!-- Button trigger modal -->
+                                    @if (Auth::user()->name == 'SuperAdmin')
+                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                            data-target="#deleteModal-{{ $home->id }}">
+                                            Delete
+                                        </button>
+                                    @endif
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="deleteModal-{{ $home->id }}" tabindex="-1"
+                                        aria-labelledby="deleteModalLabel-{{ $home->id }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteModalLabel-{{ $home->id }}">
+                                                        Konfirmasi Penghapusan</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Apakah Anda yakin ingin menghapus item ini?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Tidak</button>
+                                                    <form action="{{ route('home.delete', $home->id) }}" method="POST"
+                                                        style="display: inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Ya, Hapus</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -69,4 +127,5 @@
             </table>
         </div>
     </div>
+
 @endsection

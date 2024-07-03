@@ -43,7 +43,7 @@
                     <a href="/" class="navbar-brand">
                         @foreach ($logo as $logos)
                             @if ($logos->images)
-                                <img src={{ asset('storage/' . $logos->images->path) }} class="img-fluid" style="width: 200px; height: 50px;" alt="Image">
+                                <img src="{{ Storage::disk('s3')->url($logos->images->path) }}" class="img-fluid " alt="Image" style="height:60px; object-fit: cover; ">
                             @else
                                 Gambar tidak tersedia
                             @endif
@@ -55,13 +55,13 @@
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
                             <a href="/" class="nav-item nav-link fs-5">Beranda</a>
-                            <a href="/service" class="nav-item nav-link fs-5">Layanan</a>
-                            <a href="/gallery" class="nav-item nav-link fs-5">Galeri</a>
-                            <a href="/portfolio" class="nav-item nav-link fs-5">Portofolio</a>
-                            <a href="/about-us" class="nav-item nav-link fs-5">Tentang Kami</a>
-                            <a href="/blog" class="nav-item nav-link fs-5">Artikel</a>
+                            <a href="/layanan" class="nav-item nav-link fs-5">Layanan</a>
+                            <a href="/galleri" class="nav-item nav-link fs-5">Galeri</a>
+                            <a href="/portofolio" class="nav-item nav-link fs-5">Portofolio</a>
+                            <a href="/tentang-kami" class="nav-item nav-link fs-5">Tentang Kami</a>
+                            <a href="/artikel" class="nav-item nav-link fs-5">Artikel</a>
                         </div>
-                        <a href="/contact-us" class="btn btn-primary py-2 px-4 d-none d-xl-inline-block rounded-pill">Hubungi Kami</a>
+                        <a href="/kontak-kami" class="btn btn-primary py-2 px-4 d-none d-xl-inline-block rounded-pill">Hubungi Kami</a>
                     </div>
                 </nav>
             </div>
@@ -102,7 +102,7 @@
         <!-- Hero End -->
 
         <!-- Contact Start -->
-        <div class="container-fluid contact py-2 wow bounceInUp text-center" data-wow-delay="0.1s">
+        <div class="container-fluid contact py-4 wow bounceInUp text-center" style="background-color:#f8f8f8;" data-wow-delay="0.1s">
             <div class="container">
                 <div class="p-4 bg-light rounded contact-form">
                     <div class="row justify-content-center">
@@ -189,12 +189,54 @@
         @endforeach
         
         <!-- Google Maps Section -->
-        <div class="map-container">
-            {{-- @foreach ($contact as $kontak) --}}
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7074.183936675103!2d-73.98354113874954!3d40.75243152133734!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2f7b6376d9b53%3A0xd27fd8e9d8b605d8!2sPerfect%20Wedding%20NYC!5e0!3m2!1sid!2sid!4v1719289912387!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            {{-- <iframe src="{{ $kontak->map }}" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> --}}
-            {{-- @endforeach --}}
+        @foreach ($contact as $kontak)
+            <div class="map-container">
+                <iframe src="{{ $kontak->map }}" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        @endforeach
+
+
+         <!-- Footer Start -->
+         <div class="container-fluid footer py-3 my-2 mb-0 bg-light wow bounceInUp" data-wow-delay="0.1s">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-item">
+                            @foreach ($logo as $logos)
+                                @if ($logos->images)
+                                    <img src="{{ Storage::disk('s3')->url($logos->images->path) }}" class="img-fluid " alt="Image" style="height: 50px; object-fit: cover; ">
+                                @else
+                                    Gambar tidak tersedia
+                                @endif
+                            @endforeach
+                            @foreach ($about as $abouts)
+                            <p class="lh-lg mb-4">{{ $abouts->text }}</p>
+                        @endforeach 
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-item">
+                        
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-item">
+                            @foreach ($contact as $kontak)
+                            <h4 class="mb-4">Follow US</h4>
+                            <div class="d-flex flex-column align-items-start">
+                                <p><a href="https://wa.me/{{ $kontak->whatsapp }}" target="Tes Aja"><i class="fab fa-whatsapp text-primary me-2"></i> Whatsapp</p>
+                                <p><a href="{{ $kontak->instagram }}"><i class="fab fa-instagram text-primary me-2"></i> Instagram</p>
+                                <p><a href="{{ $kontak->tiktok }}"><i class="fab fa-tiktok text-primary me-2"></i> Tiktok</p>
+                                <p><a href="{{ $kontak->youtube }}"><i class="fab fa-youtube text-primary me-2"></i> Youtube</p>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                {{-- @endforeach --}}
+            </div>
         </div>
+        <!-- Footer End -->
 
         <!-- Copyright Start -->
         <div class="container-fluid copyright bg-dark py-4">
